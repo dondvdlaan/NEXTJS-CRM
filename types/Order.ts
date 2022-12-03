@@ -13,7 +13,7 @@ export interface OrderInt{
 }
 
 export interface RawNewOrder{
-    productID   : [{key: string, value: string}],
+    productID   : [{label: string, value: string}],
     total       : string,
     clientName  : string,
     status      : string

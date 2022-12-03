@@ -6,33 +6,33 @@ import {axiosClient, useApiClientsPerSeller, useApiDB} from '../shared/Api';
 import Swal from 'sweetalert2';
 import { getCurrentSeller, getClients, statusOptions } from '../helpers';
 import Select from 'react-select';
-import { ClientInt } from '../types/Client';
+import { User } from '../types/User';
 import { ProductInt } from '../types/Product';
 import { ERROR_MSSG } from '../helpers/constants';
 import { OrderInt, RawNewOrder } from '../types/Order';
 
 /**
- * Page NewOrder
+ * Page NewOrder form. User selects customer, products, amount and status before
+ * saving
  */
 const NewOrder = () => {
 
     // *** Constants and variables ***
     const initRawNewOrder: RawNewOrder = {
-        productID   : [{key: "", value: ""}],
+        productID   : [{label: "", value: ""}],
         total       : "",
         clientName  : "",
         status      : ""
     }
     const router                            = useRouter();
-    const [clients, setClients]             = useApiClientsPerSeller<ClientInt[]>();
+    const [clients, setClients]             = useApiClientsPerSeller<User[]>();
     const [products, setProducts]           = useApiDB<ProductInt[]>('products');
     const [rawNewOrder, setRawNewOrder]     = useState<RawNewOrder>(initRawNewOrder);
-    
+    let productsOrdered: ProductInt[]       = [];
+
     if(!products) return <p>Loading products...</p>;
     if(!clients) return <p>Loading clients...</p>;
     
-    console.log("rawNewOrder: ", rawNewOrder);
-
     const clientOptions = clients.map((client) => ({
         label: client.name,
         value: client.name,
@@ -43,25 +43,25 @@ const NewOrder = () => {
         value: product.id,
     }));
 
-    console.log("productOpstions: ", productOpstions);
-    
     // *** Event handlers ***
     const onSubmitForm = async (e: React.FormEvent<HTMLFormElement> ) => {
         e.preventDefault();
         try {
-            // se obtiene la informacion de los productos a enviar
-            let productsSubmit: ProductInt[] = [];
+            // Products are collected in an array based on id
+            console.log("rawNewOrder: ", rawNewOrder)
             rawNewOrder.productID.map((id) => {
-                productsSubmit.push(products.filter((product) => product.id === id.value)[0]);
+                let currentProd = products.filter((product) => product.id === id.value)[0];
+                productsOrdered.push(currentProd);
             });
-            const order = {
+
+            const newOrder = {
                 id: uuidv4(),
-                products: productsSubmit,
+                products: productsOrdered,
                 total: rawNewOrder.total,
                 clientName: rawNewOrder.clientName,
                 status: rawNewOrder.status,
             };
-            await axiosClient.post('orders', order);
+            await axiosClient.post('orders', newOrder);
             Swal.fire('Añadida!', 'Tu orden ha sido añadida', 'success').then((res) => {
                 if (res.value) router.push('/orders');
             });
@@ -84,9 +84,7 @@ const NewOrder = () => {
                         <Select
                             options={clientOptions}
                             onChange={(e) =>{
-                                console.log("e: ",e)
                                setRawNewOrder((rawNewOrder) => ({ ...rawNewOrder, clientName: e.value }))} 
-                            //    setRawNewOrder((prev) => ({ ...prev, client: e }))} 
                             } 
                         />
 
@@ -98,6 +96,7 @@ const NewOrder = () => {
                             classNamePrefix="select"
                             onChange={(e) => {
                                 console.log("e: ",e)
+                                console.log("rawNewOrder before: ", rawNewOrder)
                                 setRawNewOrder((rawNewOrder) => ({ ...rawNewOrder, productID: e }))}
                             }
                         />
@@ -115,7 +114,6 @@ const NewOrder = () => {
                                 type="text"
                                 placeholder="Total"
                                 onChange={(e) => {
-                                    // const total = e.target.value;
                                     setRawNewOrder((rawNewOrder) => ({ ...rawNewOrder, total: e.target.value }));
                                 }}
                             />

@@ -6,49 +6,54 @@ import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import {axiosClient} from '../shared/Api';
 import Swal from 'sweetalert2';
-import { getCurrentSeller } from '../helpers';
+import { ProductInt } from '../types/Product';
+import { ERROR_MSSG } from '../helpers/constants';
 
-const NewClient = () => {
+/**
+ * Page NewProduct lets User create a new product in stock database
+ */
+const NewProduct = () => {
+
+    // *** Constants and variables ***
     const router = useRouter();
 
+    // Formik form
     const formik = useFormik({
+        
         initialValues: {
             name: '',
-            company: '',
-            email: '',
-            password: '',
+            price: '',
+            available: '',
+            weight: '',
+            solds: '',
         },
         validationSchema: Yup.object({
             name: Yup.string().required('El nombre es obligatorio'),
-            company: Yup.string().required('El nombre de la compañia es obligatorio'),
-            email: Yup.string().email('Email invalido').required('El email es obligatorio'),
-            password: Yup.string().required('La contraseña es obligatoria'),
+            price: Yup.string().required('El precio es obligatorio'),
         }),
-        onSubmit: async (valores) => {
+        onSubmit: async (productData) => {
+
+            const product: ProductInt = {
+                ...productData,
+                id: uuidv4(),
+            };
+
             try {
-                const seller = getCurrentSeller();
-                // crea un cliente automaticamente asignado al vendedor logueado
-                const client = {
-                    ...valores,
-                    id: uuidv4(),
-                    role: 'client',
-                    sellerId: seller.id,
-                };
-                const respose = await axiosClient.post('users', client);
+                const respose = await axiosClient.post('products', product);
                 console.log(respose);
-                Swal.fire('Added!', 'El cliente ha sido actualizado', 'success').then((res) => {
-                    if (res.value) router.push('/');
+                Swal.fire('Añadido!', 'Tu producto ha sido añadido', 'success').then((res) => {
+                    if (res.value) router.push('/products');
                 });
             } catch (error) {
                 console.log(error);
-                Swal.fire('Oops...', 'Something went wrong!', 'error');
+                Swal.fire(ERROR_MSSG);
             }
         },
     });
 
     return (
         <Layout>
-            <h1 className="text-2xl text-gray-800 font-light">Nuevo Cliente</h1>
+            <h1 className="text-2xl text-gray-800 font-light">Nuevo Producto</h1>
 
             <div className="flex justify-center mt-5">
                 <div className="w-full max-w-lg">
@@ -79,80 +84,91 @@ const NewClient = () => {
                                 <p>{formik.errors.name}</p>
                             </div>
                         ) : null}
+
                         <div className="mb-4">
                             <label
                                 className="block text-gray-700 text-sm font-bold mb-2"
-                                htmlFor="company"
+                                htmlFor="price"
                             >
-                                Compañia
+                                Precio
                             </label>
                             <input
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="company"
+                                id="price"
                                 type="text"
-                                placeholder="Nombre de la compañia"
+                                placeholder="Precio"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.company}
+                                value={formik.values.price}
                             />
                         </div>
-                        {formik.touched.company && formik.errors.company ? (
+                        {formik.touched.price && formik.errors.price ? (
                             <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                                 <p className="font-bold">Error</p>
-                                <p>{formik.errors.company}</p>
+                                <p>{formik.errors.price}</p>
                             </div>
                         ) : null}
+                        
                         <div className="mb-4">
                             <label
                                 className="block text-gray-700 text-sm font-bold mb-2"
-                                htmlFor="email"
+                                htmlFor="available"
                             >
-                                Email
+                                Disponibles
                             </label>
                             <input
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="email"
+                                id="available"
                                 type="text"
-                                placeholder="Email"
+                                placeholder="Disponibles"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.email}
+                                value={formik.values.available}
                             />
                         </div>
-                        {formik.touched.email && formik.errors.email ? (
-                            <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                                <p className="font-bold">Error</p>
-                                <p>{formik.errors.email}</p>
-                            </div>
-                        ) : null}
+
                         <div className="mb-4">
                             <label
                                 className="block text-gray-700 text-sm font-bold mb-2"
-                                htmlFor="password"
+                                htmlFor="weight"
                             >
-                                Password
+                                Peso
                             </label>
 
                             <input
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="password"
-                                type="password"
-                                placeholder="Password"
+                                id="weight"
+                                type="text"
+                                placeholder="Peso"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.password}
+                                value={formik.values.weight}
                             />
-                            {formik.touched.password && formik.errors.password ? (
-                                <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                                    <p className="font-bold">Error</p>
-                                    <p>{formik.errors.password}</p>
-                                </div>
-                            ) : null}
                         </div>
+
+                        <div className="mb-4">
+                            <label
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                                htmlFor="solds"
+                            >
+                                Vendidos
+                            </label>
+
+                            <input
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="solds"
+                                type="text"
+                                placeholder="Vendidos"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.solds}
+                            />
+                        </div>
+
                         <input
                             type="submit"
                             className="bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900"
-                            value="Crear cliente"
+                            value="Crear Producto"
                         />
                     </form>
                 </div>
@@ -161,4 +177,4 @@ const NewClient = () => {
     );
 };
 
-export default NewClient;
+export default NewProduct;

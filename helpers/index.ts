@@ -1,5 +1,5 @@
 import {axiosClient} from '../shared/Api';
-import { User } from '../types/Client';
+import { User } from '../types/User';
 
 // obtiene los datos del vendedor logueado
 export const getCurrentSeller = (): User  =>{

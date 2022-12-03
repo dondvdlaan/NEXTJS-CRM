@@ -11,7 +11,6 @@ export const axiosClient = axios.create({
   baseURL: "http://localhost:4000/",
 });
 
-// *** Functions ***
 /**
  * Custom hook Api function for accessing console local storage
  */

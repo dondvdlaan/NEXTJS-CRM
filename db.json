@@ -32,9 +32,9 @@
     {
       "id": 4,
       "name": "Darlene Brown",
+      "company": "Tesla",
       "email": "darlenebr@gmail.com",
       "password": "1234",
-      "company": "Tesla",
       "role": "client",
       "sellerId": 1
     },
@@ -80,15 +80,6 @@
       "email": "martin@admin.com",
       "password": "1234",
       "id": "45aa42ba-d9d9-44f0-a0f0-d3b7a3bade21",
-      "role": "client",
-      "sellerId": 1
-    },
-    {
-      "name": "Donald",
-      "company": "Many Roads Developers",
-      "email": "dvdlaan@manyroads.dev",
-      "password": "5678",
-      "id": "c9f8db22-730d-4185-aa9f-991a992c54f0",
       "role": "client",
       "sellerId": 1
     }
@@ -141,154 +132,25 @@
       "weight": "345",
       "solds": "2",
       "id": "ac425be1-a495-4985-8dda-ed2586943832"
+    },
+    {
+      "name": "Radio",
+      "price": "1000",
+      "available": "5",
+      "weight": "25",
+      "solds": "2",
+      "id": "7839f751-3c61-4228-95e6-588cb4d5c3cb"
+    },
+    {
+      "name": "sssssssssss",
+      "price": "100",
+      "available": "",
+      "weight": "",
+      "solds": "",
+      "id": "8169275b-506f-40d1-bf10-aaef8dc569b6"
     }
   ],
   "orders": [
-    {
-      "id": "ed4b8dac-bd2a-4d98-bbe1-3c3c3a801a1f",
-      "products": [
-        {
-          "id": "1",
-          "name": "Laptop acer",
-          "price": "500",
-          "available": 10,
-          "weight": "1kg",
-          "solds": 1
-        },
-        {
-          "id": "2",
-          "name": "Headphones",
-          "price": "100",
-          "available": 80,
-          "weight": "50g",
-          "solds": 1
-        }
-      ],
-      "total": "600",
-      "clientName": "Carl Jhonson",
-      "status": {
-        "value": "completed",
-        "label": "Completado"
-      }
-    },
-    {
-      "id": "15948e32-02e2-4edc-b5ac-076488a4ecdb",
-      "products": [
-        {
-          "name": "Iphone x",
-          "price": "500",
-          "available": "50",
-          "weight": "100g",
-          "solds": "0",
-          "id": "ddb048aa-d26c-427b-8437-8b551d8be9f4"
-        },
-        {
-          "id": "2",
-          "name": "Headphones",
-          "price": "100",
-          "available": 80,
-          "weight": "50g",
-          "solds": 1
-        },
-        {
-          "name": "Oculus lents",
-          "price": "200",
-          "available": "3",
-          "weight": "100g",
-          "solds": "2",
-          "id": "98429dbe-6ce3-41d1-92f3-67b7614fc4a4"
-        }
-      ],
-      "total": "800",
-      "clientName": "Darlene Brown",
-      "status": {
-        "value": "canceled",
-        "label": "Cancelado"
-      }
-    },
-    {
-      "id": "b6857892-da05-4537-814f-42bb8f16a117",
-      "products": [
-        {
-          "id": "1",
-          "name": "Laptop acer",
-          "price": "500",
-          "available": 10,
-          "weight": "1kg",
-          "solds": 1
-        },
-        {
-          "name": "Iphone x",
-          "price": "500",
-          "available": "50",
-          "weight": "100g",
-          "solds": "0",
-          "id": "ddb048aa-d26c-427b-8437-8b551d8be9f4"
-        }
-      ],
-      "total": "1000",
-      "clientName": "John Doe",
-      "status": {
-        "value": "pending",
-        "label": "Pendiente"
-      }
-    },
-    {
-      "id": "6390677f-19e1-4ddf-b549-fe4848000119",
-      "products": [
-        {
-          "id": "1",
-          "name": "Laptop acer",
-          "price": "500",
-          "available": 10,
-          "weight": "1kg",
-          "solds": 1
-        }
-      ],
-      "total": "500",
-      "clientName": "martin",
-      "status": {
-        "value": "completed",
-        "label": "Completado"
-      }
-    },
-    {
-      "id": "a1ea4368-d685-4476-ab70-ce856eb46eef",
-      "products": [
-        {
-          "name": "Mouse",
-          "price": "5",
-          "available": "100",
-          "weight": "10g",
-          "solds": "3",
-          "id": "297995b2-57e5-41d9-9c17-7931146c3014"
-        }
-      ],
-      "total": "5",
-      "clientName": "Darlene Brown",
-      "status": {
-        "value": "canceled",
-        "label": "Cancelado"
-      }
-    },
-    {
-      "id": "5d50248c-1f57-4aa0-bb34-eea14297c558",
-      "products": [
-        {
-          "id": "2",
-          "name": "Headphones",
-          "price": "100",
-          "available": 80,
-          "weight": "50g",
-          "solds": 1
-        }
-      ],
-      "clientName": "Donald",
-      "status": {
-        "value": "pending",
-        "label": "Pendiente"
-      }
-    },
     {
       "id": "b8c8ff60-ee31-4310-90d3-16cd6540b410",
       "products": [
@@ -345,6 +207,89 @@
       "total": "12",
       "clientName": "Donald",
       "status": "pending"
+    },
+    {
+      "id": "e9a9656e-3c84-4307-b67c-eaaa66f52132",
+      "products": [
+        {
+          "id": "1",
+          "name": "Laptop acer",
+          "price": "500",
+          "available": 10,
+          "weight": "1kg",
+          "solds": 1
+        },
+        {
+          "name": "Oculus lents",
+          "price": "200",
+          "available": "3",
+          "weight": "100g",
+          "solds": "2",
+          "id": "98429dbe-6ce3-41d1-92f3-67b7614fc4a4"
+        },
+        {
+          "id": "2",
+          "name": "Headphones",
+          "price": "100",
+          "available": 80,
+          "weight": "50g",
+          "solds": 1
+        },
+        {
+          "name": "Iphone x",
+          "price": "500",
+          "available": "50",
+          "weight": "100g",
+          "solds": "0",
+          "id": "ddb048aa-d26c-427b-8437-8b551d8be9f4"
+        },
+        {
+          "name": "Mouse",
+          "price": "5",
+          "available": "100",
+          "weight": "10g",
+          "solds": "3",
+          "id": "297995b2-57e5-41d9-9c17-7931146c3014"
+        },
+        {
+          "name": "y",
+          "price": "2",
+          "available": "34",
+          "weight": "345",
+          "solds": "2",
+          "id": "ac425be1-a495-4985-8dda-ed2586943832"
+        }
+      ],
+      "total": "1000",
+      "clientName": "Donald",
+      "status": {
+        "value": "canceled",
+        "label": "Cancelado"
+      }
+    },
+    {
+      "id": "42f3a775-17cb-4484-a0ff-93bbdc5e9936",
+      "products": [
+        {
+          "id": "1",
+          "name": "Laptop acer",
+          "price": "500",
+          "available": 10,
+          "weight": "1kg",
+          "solds": 1
+        },
+        {
+          "name": "Oculus lents",
+          "price": "200",
+          "available": "3",
+          "weight": "100g",
+          "solds": "2",
+          "id": "98429dbe-6ce3-41d1-92f3-67b7614fc4a4"
+        }
+      ],
+      "total": "100",
+      "clientName": "Darlene Brown",
+      "status": "completed"
     }
   ]
 }

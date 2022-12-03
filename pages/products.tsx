@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import Link from 'next/link';
-import {axiosClient} from '../shared/Api';
+import {axiosClient, useApiDB} from '../shared/Api';
 import Product from '../components/Product';
 import { ProductInt } from '../types/Product';
 
 export default function Products() {
 
-    const [products, setProducts] = useState<ProductInt[]>([]);
+    // *** Constants and variables ***
+    const [products, setProducts] = useApiDB<ProductInt[]>('products');
 
-    useEffect(() => {
-        axiosClient.get('products').then((res) => {
-            setProducts(res.data);
-        });
-    }, []);
+    if(!products) return<p>Loading products...</p>;
+
     return (
         <Layout>
             <h1 className="text-2xl text-gray-800 font-light">Productos</h1>

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Client from '../components/Client';
 import { getCurrentSeller, getClients } from '../helpers';
-import { ClientInt, User } from '../types/Client';
+import { ClientInt, Seller} from '../types/User';
 import { ApiStorage } from '../shared/Api';
 
 /**
@@ -23,10 +23,10 @@ export default function Home() {
         if(localStorage.getItem('isAuth') === null) 
             router.push('/login');
         else {
-            const seller = ApiStorage<User>('userData');
+            const seller = ApiStorage<Seller>('userData');
 
             getClients(seller.id)
-            .then((res) => setClients(res.data));
+            .then((clients) => setClients(clients.data));
         }
     }, []);
 
@@ -34,7 +34,7 @@ export default function Home() {
         <Layout>
             <h1 className="text-2xl text-gray-800 font-light">Clientes</h1>
             
-            <Link href="/NewClient">
+            <Link href="/newClient">
                 <div className="bg-blue-800 py-2 px-5 mt-3 inline-block text-white rounded text-sm hover:bg-gray-800 mb-3 uppercase font-bold w-full lg:w-auto text-center">
                     Nuevo Cliente
                 </div>

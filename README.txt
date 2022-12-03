@@ -9,3 +9,7 @@ Stack:
 - Typescript
 - Tailwind CSS
 - JSON Server
+
+Start-up:
+- json-server db.json --port 4000
+- User/PW : admin@admin.com / 1234

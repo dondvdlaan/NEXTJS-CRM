@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 /**
- * Sidebar Component is called in Layout and creates a sidebar in the Home page
+ * Sidebar Component is called in Layout and creates a sidebar at the Home page
  */
 const Sidebar = () => {
     
@@ -44,14 +44,14 @@ const Sidebar = () => {
             </div>
             <nav className="mt-5 list-none">
                 <li className={router.pathname === '/bestSellers' ? 'bg-blue-800 p-2' : 'p-2'}>
-                    <Link href="/bestSellers">
+                    <Link href="/">
                         <div className="text-white block">
                             Mejores Vendedores
                         </div>
                     </Link>
                 </li>
                 <li className={router.pathname === '/bestClients' ? 'bg-blue-800 p-2' : 'p-2'}>
-                    <Link href="/bestClients">
+                    <Link href="/">
                         <div className="text-white block">
                             Mejores Clientes
                         </div>

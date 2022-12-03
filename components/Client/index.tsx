@@ -1,13 +1,13 @@
 import React from 'react';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import Swal, { SweetAlertOptions } from 'sweetalert2';
 import {axiosClient} from '../../shared/Api';
-import {ClientInt} from '../../types/Client'
+import {ClientInt, User} from '../../types/User'
 import { CONFIRM_DELETE_MSSG, DELETE_CONFIRMED_MSSG, ERROR_MSSG } from '../../helpers/constants';
 
 interface Props{ 
-    currentClientData   : ClientInt,
-    clients             : ClientInt[],
+    currentClientData   : User,
+    clients             : User[],
     setClients          : React.Dispatch<React.SetStateAction<ClientInt[]>> }
 
 /**
@@ -17,8 +17,8 @@ const Client = (props:Props) => {
 
     // *** Constant and variables ***
     const { name, company, email, id } = props.currentClientData;
-
- 
+    const router = useRouter();
+    
     // *** Event handlers ***
     const onDeleteClient = () => {
         Swal.fire(CONFIRM_DELETE_MSSG)
@@ -26,8 +26,12 @@ const Client = (props:Props) => {
             if (result.value) {
                 try {
                     await axiosClient.delete(`users/${id}`);
-                    props.setClients(props.clients.filter((client) => client.id !== id));
-                    Swal.fire(DELETE_CONFIRMED_MSSG);
+
+                    //Swal.fire(DELETE_CONFIRMED_MSSG);
+                    
+                    // Refresh current page
+                    window.location.reload();
+
                 } catch (error) {
                     console.log(error);
                     Swal.fire(ERROR_MSSG);

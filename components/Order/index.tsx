@@ -12,8 +12,9 @@ const Order = (props:{ order: OrderInt}) => {
     // *** Constants and variables ***
     const { products, clientName, status, total, id } = props.order;
     const [orderStatus, setOrderStatus] = useState<SingleValue<OrderStatus>>(status);
-    
     let borderColor = "";
+
+    // Set top border line color per order card
     if (orderStatus){
         borderColor = orderStatus.value === 'completed' ? `border-green-400`
                       : orderStatus.value === 'pending' ? `border-orange-400`
@@ -43,7 +44,9 @@ const Order = (props:{ order: OrderInt}) => {
             <div className="px-6 py-4 mb-2 mt-4 mb-8">
                 <div className="capitalize tracking-wide text-c2 mb-2">Productos</div>
                 {products.map((product, index) => {
-                    const border = (index === products.length) ? `border-b-0"` : ``;
+                    
+                    const border = "";
+                    // const border = (index === products.length) ? `border-b-0"` : ``;
                     return (
                         <div
                             key={product.id}

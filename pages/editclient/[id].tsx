@@ -3,22 +3,25 @@ import Layout from '../../components/Layout';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import {axiosClient} from '../../shared/Api';
+import {axiosClient, useApiDB} from '../../shared/Api';
+import {ClientInt, User} from '../../types/User';
 import Swal from 'sweetalert2';
+import { ERROR_MSSG } from '../../helpers/constants';
 
+/**
+ * This page lets User make changes to clients details
+ */
 const EditClient = () => {
 
     // *** Constant and variables ***
-    const router                = useRouter();
-    const {query: { id }}       = router;
-    const [client, setClient]   = useState({});
+    const router            = useRouter();
+    const {query: { id }}   = router;
+    const client            = useApiDB<ClientInt[]>(`users?id=${id}`)[0];
 
-    useEffect(() => {
-        // obtiene el cliente a editar
-        axiosClient.get(`users?id=${id}`).then((res) => {
-            setClient(res.data[0]);
-        });
-    }, []);
+    if(!client) return <p>Loading Client...</p>;
+
+    // Formik constants
+    const UPDATE_SUCCES_MSSG = 'Actualizado!' + 'Tu cliente ha sido actualizado! '+ 'success';
 
     const validationSchema = Yup.object({
         name: Yup.string().required('El nombre es obligatorio'),
@@ -27,18 +30,34 @@ const EditClient = () => {
         password: Yup.string().required("La contraseña es obligatoria'"),
     });
 
-    const handleSubmit = async (data) => {
-        try {
-            const updatedClient = { ...client, ...data };
-            const respose = await axiosClient.put(`users/${client.id}`, updatedClient);
-            Swal.fire('Actualizado!', 'Tu cliente ha sido actualizado! ', 'success').then((res) => {
-                if (res.value) router.push('/');
-            });
-        } catch (error) {
-            console.log(error);
-            Swal.fire('Oops...', 'Something went wrong!', 'error');
-        }
+    const initialValues = {
+        id      : client[0].id,
+        name    : client[0].name,
+        company : client[0].company,
+        email   : client[0].email,
+        password: client[0].password
+    }
+
+    // *** Event Handlers ***
+    const onHandleFormData = async (userData: User) => {
+
+        // Compose updated Client
+        const updatedClient = { ...client[0], ...userData };
+        
+        // Update DB
+        axiosClient.put(`users/${id}`, updatedClient)
+
+            // Succes message to user and back to customer list
+            .then(()=> {
+                Swal.fire(UPDATE_SUCCES_MSSG)
+                    .then(()=>router.push('/'));
+            })
+            .catch(err=>{
+                console.log("err", err);
+                Swal.fire(ERROR_MSSG);
+            } )
     };
+
     return (
         <Layout>
             <h1 className="text-2xl text-gray-800 font-light">Editar Cliente</h1>
@@ -48,14 +67,8 @@ const EditClient = () => {
                     <Formik
                         validationSchema={validationSchema}
                         enableReinitialize
-                        initialValues={{
-                            name: client.name,
-                            company: client.company,
-                            email: client.email,
-                            password: client.password,
-                        }}
-                        onSubmit={(valores) => {
-                            handleSubmit(valores);
+                        initialValues={initialValues}
+                        onSubmit={(userData: User) => {onHandleFormData(userData);
                         }}
                     >
                         {(props) => {
@@ -87,6 +100,7 @@ const EditClient = () => {
                                             <p>{props.errors.name}</p>
                                         </div>
                                     ) : null}
+                                    
                                     <div className="mb-4">
                                         <label
                                             className="block text-gray-700 text-sm font-bold mb-2"
@@ -110,6 +124,7 @@ const EditClient = () => {
                                             <p>{props.errors.company}</p>
                                         </div>
                                     ) : null}
+                                    
                                     <div className="mb-4">
                                         <label
                                             className="block text-gray-700 text-sm font-bold mb-2"
@@ -133,6 +148,7 @@ const EditClient = () => {
                                             <p>{props.errors.email}</p>
                                         </div>
                                     ) : null}
+                                    
                                     <div className="mb-4">
                                         <label
                                             className="block text-gray-700 text-sm font-bold mb-2"
@@ -157,6 +173,7 @@ const EditClient = () => {
                                             </div>
                                         ) : null}
                                     </div>
+                                    
                                     <input
                                         type="submit"
                                         className="bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900"

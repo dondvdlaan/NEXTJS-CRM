@@ -6,7 +6,7 @@ import Order from '../components/Order';
 import { OrderInt } from '../types/Order';
 
 /**
- * Page to list orders and to add a new order
+ * Page to list orders and displays new order button
  */
 export default function Orders() {
     
@@ -18,7 +18,7 @@ export default function Orders() {
       return (
         <Layout>
             <h1 className="text-2xl text-gray-800 font-light">Ordenes</h1>
-            <Link href="/neworder">
+            <Link href="/newOrder">
                 <div className="bg-blue-800 py-2 px-5 mt-3 inline-block text-white rounded text-sm hover:bg-gray-800 mb-3 uppercase font-bold w-full lg:w-auto text-center">
                     Nueva Orden
                 </div>

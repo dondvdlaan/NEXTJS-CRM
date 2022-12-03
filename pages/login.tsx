@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {axiosClient} from '../shared/Api';
 import { useRouter } from 'next/router';
-import { User } from '../types/Client';
+import { User } from '../types/User';
 import { INITIAL_VALUES, RESET_MESSAGE } from '../helpers/constants';
 
 /**

@@ -2,8 +2,8 @@ export interface ProductInt{
     id          : string,
     name        : string,
     price       : string,
-    available   : number,
+    available   : string,
     weight      : string,
-    solds       : number    
+    solds       : string    
 }
 

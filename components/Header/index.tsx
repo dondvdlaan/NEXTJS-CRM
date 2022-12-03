@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useApiStorage } from '../../shared/Api';
-import { User } from '../../types/Client';
+import { User } from '../../types/User';
 
 /**
  * Header Component is called in the Layout and displays user name and log out button
@@ -15,7 +15,7 @@ const Header = () => {
     // Check if user exists
     if (!user || Object.keys(user).length === 0) return null;
 
-    // *** Event handlesr ***
+    // *** Event handler ***
     const onLogOut = () => {
         localStorage.setItem('isAuth', 'false');
         localStorage.setItem('userData', '{}');
